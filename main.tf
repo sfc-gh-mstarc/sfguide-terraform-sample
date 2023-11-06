@@ -95,3 +95,29 @@ resource "snowflake_role_grants" "grants" {
   role_name = snowflake_role.role.name
   users     = [snowflake_user.user.name]
 }
+
+resource "snowflake_table" "table" {
+  database            = snowflake_database.db.name
+  schema              = snowflake_schema.schema.name
+  name                = "tf_table"
+  comment             = "A table."
+  change_tracking     = false
+
+  column {
+    name     = "identity"
+    type     = "NUMBER(38,0)"
+    nullable = true
+
+    identity {
+      start_num = 1
+      step_num  = 3
+    }
+  }
+
+  column {
+    name     = "data"
+    type     = "text"
+    nullable = false
+  }
+
+}
